@@ -1,0 +1,6 @@
+x=eval(input("enter a number: "))
+y=eval(input("enter another number: "))
+print ("Addition", x+y)
+print ("Subtraction", x-y)
+print ("Multiplication", x*y)
+print ("Division", x/y)
