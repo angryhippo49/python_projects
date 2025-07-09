@@ -2,10 +2,14 @@
 def sum_digits(x:int)->int:
     # create a variable to add the digits to
     sum = 0
-    for i in range(x):
+
+    # loop for digit adding
+    while x > 0:
         digit = x%10
         sum += digit
+        # x reduces by 1/10th each time
         x = int(x/10)
+
     return sum
 
 
