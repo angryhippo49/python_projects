@@ -24,30 +24,55 @@ def update_board(board: List, pos: Tuple, player: str) -> int:
     return 1
 
 
+# check if game over
+def is_game_over(board: List[List[str]]) -> None:
+    
+    # check if there are 3 in a row anywhere
+    for i in range(len(board)):
+        if board[i].count('X') == 3:
+            print("Player X won")
+            return True
+        if board[i].count('O') == 3:
+            print("player O won")
+            return True
+    
+    # check if there are 3 in a coloumn anywhere
+    for i in range(3):
+        if board[0][i] == board[1][i] == board[2][i]:
+
+            # make sure that spaces don't count
+            if board[0][i] != ' ':
+                print('player ',board[0][i],"won")
+                return True
+    
+    # make sure that spaces don't count
+    if board[1][1] != ' ':
+
+        # check for diagonals
+        if board[2][2] == board[1][1] == board[0][2]:
+            print("player ",board[1][1],"won")
+            return True
+        if board[0][0] == board[1][1] == board[2][2]:
+            print("player ",board[1][1],"won")
+            return True
+    
+    # check to see if board isn't full
+    for row in board:
+        if row.count(' ') != 0:
+            return False
+    
+    # else it is full and a tie
+    print("It's a tie!")
+    return True
+
+
 # main function
 if __name__ == "__main__":
     # test 1
     board = [
-        [' ',' ','O'],
-        ['X',' ','X'],
-        [' ',' ',' ']
+        [' ','X','O'],
+        [' ','O','X'],
+        [' ','O','X']
     ]
-    pos = (1,1)
-    player = 'X'
-    update_board(board, pos, player)
-    print_board(board)
+    print(is_game_over(board))
 
-    # test 2
-    board = [
-        [' ',' ','O'],
-        ['X',' ','X'],
-        [' ',' ',' ']
-    ]
-    pos = (1,1)
-    player = 'X'
-    update_board(board, pos, player)
-    print_board(board)
-
-
-
-    
