@@ -1,6 +1,6 @@
 # imports
 from typing import List, Tuple
-
+from random import randint
 
 # create a function to print the board
 def print_board(l: List[List[str]]) -> None:
@@ -66,13 +66,33 @@ def is_game_over(board: List[List[str]]) -> None:
     return True
 
 
+# function for the computer move
+def computer_move(board: List) -> None:
+
+    # create an empty list for available spots for the computer
+    validinputs = []
+
+    # add the available spots to the list
+    for i in range(len(board)):
+        for c in range(len(board[i])):
+            if board[i][c] == ' ':
+                validinputs += [(i,c)]
+    
+    # select a random valid spot for the computer
+    comploc = validinputs[randint(0,len(validinputs)-1)]
+
+    # update the board with this spot
+    update_board(board,comploc,'O')
+
+
 # main function
 if __name__ == "__main__":
     # test 1
     board = [
-        [' ','X','O'],
-        [' ','O','X'],
-        [' ','O','X']
+        ['X','X','O'],
+        ['X','O','X'],
+        ['X','O','X']
     ]
-    print(is_game_over(board))
+    computer_move(board)
+    print_board(board)
 
