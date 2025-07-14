@@ -49,7 +49,7 @@ def is_game_over(board: List[List[str]]) -> None:
     if board[1][1] != ' ':
 
         # check for diagonals
-        if board[2][2] == board[1][1] == board[0][2]:
+        if board[2][0] == board[1][1] == board[0][2]:
             print("player ",board[1][1],"won")
             return True
         if board[0][0] == board[1][1] == board[2][2]:
@@ -85,14 +85,40 @@ def computer_move(board: List) -> None:
     update_board(board,comploc,'O')
 
 
-# main function
-if __name__ == "__main__":
-    # test 1
-    board = [
-        ['X','X','O'],
-        ['X','O','X'],
-        ['X','O','X']
-    ]
-    computer_move(board)
-    print_board(board)
+def main():
 
+    board = [
+        [' ',' ',' '],
+        [' ',' ',' '],
+        [' ',' ',' ']
+    ]
+    
+    print("------ Empty Board -------")
+    print_board(l = board)
+    print("----------------------------")
+
+    while True:
+
+        # player's move
+        player = eval(input('Where do you want to play, enter (i, j) in python index: '))
+        update_board(board = board, pos = player, player = 'X')
+        print("------ Player's move -------")
+        print_board(l = board)
+        print("----------------------------")
+
+        if is_game_over(board = board):
+            break
+
+        # computer's move
+        computer_move(board=board)
+        print("------ Computer's move -------")
+        print_board(l = board)
+        print("------------------------------")
+
+        if is_game_over(board = board):
+            break
+
+
+# script
+if __name__ == "__main__":
+    main()
