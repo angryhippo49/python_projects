@@ -1,5 +1,5 @@
 # imports
-from typing import List, Tuple
+from typing import List, Tuple, Union
 from random import randint
 
 # create a function to print the board
@@ -18,10 +18,49 @@ def update_board(board: List, pos: Tuple, player: str) -> int:
     # if position is already taken, then print and return.
     if board[pos[0]][pos[1]] != ' ':
         print("Invalid move!")
-        return -1
+        return False
     
     board[pos[0]][pos[1]] = player
-    return 1
+    return True
+
+
+def block_human(board: List) -> Union[Tuple, None]:
+    mtlist = []
+    mtlist1 = []
+    mtlist2 = []
+    diagonal1 = [board[0][0],board[1][1],board[2][2]]
+    diagonal2 = [board[2][0],board[1][1],board[0][2]]
+    for i in range(len(board)):
+        if board[i].count('X') == 2:
+            for c in range(len(board[i])):
+                if board[i][c] == ' ':
+                    return (i,c)
+
+        mtlist += [board[i][0]]
+        mtlist1 += [board[i][1]]
+        mtlist2 += [board[i][2]]
+    if mtlist.count('X') == 2:
+        for i in range(len(mtlist)):
+            if mtlist[i] == ' ':
+                return (i,0)
+    if mtlist1.count('X') == 2:
+        for i in range(len(mtlist1)):
+            if mtlist1[i] == ' ':
+                return (i,1)
+    if mtlist2.count('X') == 2:
+        for i in range(len(mtlist2)):
+            if mtlist2[i] == ' ':
+                return (i,2)
+    if diagonal1.count('X') == 2:
+        for i in range(len(diagonal1)):
+            if diagonal1[i] == ' ':
+                return (i,i)
+    if diagonal2.count('X') == 2:
+        for i in range(len(diagonal2)):
+            if diagonal2[i] == ' ':
+                return (2-i,i)
+    return None
+
 
 
 # check if game over
@@ -101,7 +140,9 @@ def main():
 
         # player's move
         player = eval(input('Where do you want to play, enter (i, j) in python index: '))
-        update_board(board = board, pos = player, player = 'X')
+        check = update_board(board = board, pos = player, player = 'X')
+        if check == False:
+            raise ValueError("Invalid move")
         print("------ Player's move -------")
         print_board(l = board)
         print("----------------------------")
@@ -110,6 +151,7 @@ def main():
             break
 
         # computer's move
+        print(block_human(board = board))
         computer_move(board=board)
         print("------ Computer's move -------")
         print_board(l = board)
@@ -117,7 +159,6 @@ def main():
 
         if is_game_over(board = board):
             break
-
 
 # script
 if __name__ == "__main__":
