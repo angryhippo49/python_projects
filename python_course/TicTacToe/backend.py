@@ -64,15 +64,15 @@ def block_human(board: List, player = str) -> Union[Tuple, None]:
 
 
 # check if game over
-def is_game_over(board: List[List[str]], player = str, comp = str) -> None:
+def is_game_over(board: List[List[str]]) -> None:
     
     # check if there are 3 in a row anywhere
     for i in range(len(board)):
-        if board[i].count(player) == 3:
-            print("Player ",player,"won")
+        if board[i].count('X') == 3:
+            print("Player X won")
             return True
         if board[i].count('O') == 3:
-            print("player ",comp,"won")
+            print("Player O won")
             return True
     
     # check if there are 3 in a coloumn anywhere
@@ -81,7 +81,7 @@ def is_game_over(board: List[List[str]], player = str, comp = str) -> None:
 
             # make sure that spaces don't count
             if board[0][i] != ' ':
-                print('player ',board[0][i],"won")
+                print('Player',board[0][i],"won")
                 return True
     
     # make sure that spaces don't count
@@ -89,10 +89,10 @@ def is_game_over(board: List[List[str]], player = str, comp = str) -> None:
 
         # check for diagonals
         if board[2][0] == board[1][1] == board[0][2]:
-            print("player ",board[1][1],"won")
+            print("Player",board[1][1],"won")
             return True
         if board[0][0] == board[1][1] == board[2][2]:
-            print("player ",board[1][1],"won")
+            print("Player",board[1][1],"won")
             return True
     
     # check to see if board isn't full
@@ -158,7 +158,7 @@ def main():
         print_board(l = board)
         print("----------------------------")
 
-        if is_game_over(board = board, player = sym, comp = compsym):
+        if is_game_over(board = board):
             break
 
         # computer's move
@@ -167,7 +167,7 @@ def main():
         print_board(l = board)
         print("------------------------------")
 
-        if is_game_over(board = board, player = sym, comp = compsym):
+        if is_game_over(board = board):
             break
 
 # script
