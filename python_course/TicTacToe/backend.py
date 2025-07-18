@@ -146,7 +146,12 @@ def main():
     print("------ Empty Board -------")
     print_board(l = board)
     print("----------------------------")
-
+    turn = input("Do you want to go first? ")
+    if turn == 'No':
+        computer_move(board = board, player = sym, comp = compsym)
+        print("------ Computer's move -------")
+        print_board(l = board)
+        print("------------------------------")
     while True:
 
         # player's move
