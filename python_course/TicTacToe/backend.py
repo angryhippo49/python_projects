@@ -24,14 +24,14 @@ def update_board(board: List, pos: Tuple, player: str) -> int:
     return True
 
 
-def block_human(board: List) -> Union[Tuple, None]:
+def block_human(board: List, player = str) -> Union[Tuple, None]:
     mtlist = []
     mtlist1 = []
     mtlist2 = []
     diagonal1 = [board[0][0],board[1][1],board[2][2]]
     diagonal2 = [board[2][0],board[1][1],board[0][2]]
     for i in range(len(board)):
-        if board[i].count('X') == 2:
+        if board[i].count(player) == 2:
             for c in range(len(board[i])):
                 if board[i][c] == ' ':
                     return (i,c)
@@ -39,23 +39,23 @@ def block_human(board: List) -> Union[Tuple, None]:
         mtlist += [board[i][0]]
         mtlist1 += [board[i][1]]
         mtlist2 += [board[i][2]]
-    if mtlist.count('X') == 2:
+    if mtlist.count(player) == 2:
         for i in range(len(mtlist)):
             if mtlist[i] == ' ':
                 return (i,0)
-    if mtlist1.count('X') == 2:
+    if mtlist1.count(player) == 2:
         for i in range(len(mtlist1)):
             if mtlist1[i] == ' ':
                 return (i,1)
-    if mtlist2.count('X') == 2:
+    if mtlist2.count(player) == 2:
         for i in range(len(mtlist2)):
             if mtlist2[i] == ' ':
                 return (i,2)
-    if diagonal1.count('X') == 2:
+    if diagonal1.count(player) == 2:
         for i in range(len(diagonal1)):
             if diagonal1[i] == ' ':
                 return (i,i)
-    if diagonal2.count('X') == 2:
+    if diagonal2.count(player) == 2:
         for i in range(len(diagonal2)):
             if diagonal2[i] == ' ':
                 return (2-i,i)
@@ -64,15 +64,15 @@ def block_human(board: List) -> Union[Tuple, None]:
 
 
 # check if game over
-def is_game_over(board: List[List[str]]) -> None:
+def is_game_over(board: List[List[str]], player = str, comp = str) -> None:
     
     # check if there are 3 in a row anywhere
     for i in range(len(board)):
-        if board[i].count('X') == 3:
-            print("Player X won")
+        if board[i].count(player) == 3:
+            print("Player ",player,"won")
             return True
         if board[i].count('O') == 3:
-            print("player O won")
+            print("player ",comp,"won")
             return True
     
     # check if there are 3 in a coloumn anywhere
@@ -106,13 +106,13 @@ def is_game_over(board: List[List[str]]) -> None:
 
 
 # function for the computer move
-def computer_move(board: List) -> None:
+def computer_move(board: List, player = str, comp = str) -> None:
 
     # see if player needs to be blocked
-    blockpos = block_human(board = board)
+    blockpos = block_human(board = board, player = player)
     # if block_human returned a required block, update with the needed position. Else, choose a random spot to fill
     if blockpos != None:
-        update_board(board = board, pos = blockpos, player = 'O')
+        update_board(board = board, pos = blockpos, player = comp)
         return
     else:
         # create an empty list for available spots for the computer
@@ -128,11 +128,15 @@ def computer_move(board: List) -> None:
         comploc = validinputs[randint(0,len(validinputs)-1)]
 
         # update the board with this spot
-        update_board(board,comploc,'O')
+        update_board(board,comploc,comp)
 
 
 def main():
-
+    sym = input("What symbol do you want (X/O)? ")
+    if sym == 'X':
+        compsym = 'O'
+    else:
+        compsym = 'X'
     board = [
         [' ',' ',' '],
         [' ',' ',' '],
@@ -147,23 +151,23 @@ def main():
 
         # player's move
         player = eval(input('Where do you want to play, enter (i, j) in python index: '))
-        check = update_board(board = board, pos = player, player = 'X')
+        check = update_board(board = board, pos = player, player = sym)
         if check == False:
             raise ValueError("Invalid move")
         print("------ Player's move -------")
         print_board(l = board)
         print("----------------------------")
 
-        if is_game_over(board = board):
+        if is_game_over(board = board, player = sym, comp = compsym):
             break
 
         # computer's move
-        computer_move(board = board)
+        computer_move(board = board, player = sym, comp = compsym)
         print("------ Computer's move -------")
         print_board(l = board)
         print("------------------------------")
 
-        if is_game_over(board = board):
+        if is_game_over(board = board, player = sym, comp = compsym):
             break
 
 # script
