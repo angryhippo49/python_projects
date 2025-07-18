@@ -108,20 +108,27 @@ def is_game_over(board: List[List[str]]) -> None:
 # function for the computer move
 def computer_move(board: List) -> None:
 
-    # create an empty list for available spots for the computer
-    validinputs = []
+    # see if player needs to be blocked
+    blockpos = block_human(board = board)
+    # if block_human returned a required block, update with the needed position. Else, choose a random spot to fill
+    if blockpos != None:
+        update_board(board = board, pos = blockpos, player = 'O')
+        return
+    else:
+        # create an empty list for available spots for the computer
+        validinputs = []
 
-    # add the available spots to the list
-    for i in range(len(board)):
-        for c in range(len(board[i])):
-            if board[i][c] == ' ':
-                validinputs += [(i,c)]
-    
-    # select a random valid spot for the computer
-    comploc = validinputs[randint(0,len(validinputs)-1)]
+        # add the available spots to the list
+        for i in range(len(board)):
+            for c in range(len(board[i])):
+                if board[i][c] == ' ':
+                    validinputs += [(i,c)]
+        
+        # select a random valid spot for the computer
+        comploc = validinputs[randint(0,len(validinputs)-1)]
 
-    # update the board with this spot
-    update_board(board,comploc,'O')
+        # update the board with this spot
+        update_board(board,comploc,'O')
 
 
 def main():
@@ -151,8 +158,7 @@ def main():
             break
 
         # computer's move
-        print(block_human(board = board))
-        computer_move(board=board)
+        computer_move(board = board)
         print("------ Computer's move -------")
         print_board(l = board)
         print("------------------------------")
