@@ -24,7 +24,7 @@ def update_board(board: List, pos: Tuple, player: str) -> int:
     return True
 
 
-def block_human(board: List, player = str) -> Union[Tuple, None]:
+def three_in_a_row(board: List, player = str) -> Union[Tuple, None]:
     mtlist = []
     mtlist1 = []
     mtlist2 = []
@@ -108,9 +108,14 @@ def is_game_over(board: List[List[str]]) -> None:
 # function for the computer move
 def computer_move(board: List, player = str, comp = str) -> None:
 
+    # use three in a row function but to try to win instead
+    win = three_in_a_row(board = board, player = comp)
+    if win != None:
+        update_board(board = board, pos = win, player = comp)
+        return
     # see if player needs to be blocked
-    blockpos = block_human(board = board, player = player)
-    # if block_human returned a required block, update with the needed position. Else, choose a random spot to fill
+    blockpos = three_in_a_row(board = board, player = player)
+    # if three_in_a_row returned a required block, update with the needed position. Else, choose a random spot to fill
     if blockpos != None:
         update_board(board = board, pos = blockpos, player = comp)
         return
