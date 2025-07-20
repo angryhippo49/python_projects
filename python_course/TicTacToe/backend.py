@@ -136,17 +136,18 @@ def computer_move(board: List, player = str, comp = str) -> None:
         update_board(board,comploc,comp)
 
 
+def create_board() -> List:
+    l = [[' ' for _ in range(3)] for _ in range(3)]
+    return l
+
+
 def main():
     sym = input("What symbol do you want (X/O)? ")
     if sym == 'X':
         compsym = 'O'
     else:
         compsym = 'X'
-    board = [
-        [' ',' ',' '],
-        [' ',' ',' '],
-        [' ',' ',' ']
-    ]
+    board = create_board()
     
     print("------ Empty Board -------")
     print_board(l = board)
