@@ -125,7 +125,11 @@ def computer_move(board: List, player = str, comp = str, turn = str) -> None:
     # try to use a strategy
     # create a temporary list of playermoves to bounce off of
     playermove = [(2,0),(1,0),(2,1)]
+    playermove1 = [(2,1),(2,2),(1,2)]
+    playermove2 = [(0,1),(0,2),(1,2)]
 
+    # if the player plays around the oppisite available spots, there are two possible moves
+    oppspot = [(0,2),(2,0)]
     # create a variable that that will later check if it is the first try or not
     trycheck = 0
     
@@ -145,8 +149,17 @@ def computer_move(board: List, player = str, comp = str, turn = str) -> None:
 
                     # if so, choose to opposite corner
                     if playermove.count(x) == 1:
-                        if board[2][0] == ' ':
+                        if board[0][2] == ' ':
                             update_board(board = board, pos = (0,2), player = comp)
+                            return
+                    elif playermove1.count(x) == 1:
+                        spot = randint(0,1)
+                        if board[oppspot[spot][0]][oppspot[spot][1]] == ' ':
+                            update_board(board = board, pos = (oppspot[spot][0],oppspot[spot][1]), player = comp)
+                            return
+                    elif playermove2.count(x) == 1:
+                        if board[2][0] == ' ':
+                            update_board(board = board, pos = (2,0), player = comp)
                             return
                     
                     # if not, choose a random spot
